@@ -23,8 +23,10 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-foreground">
-          <span aria-hidden className="h-2 w-2 rounded-full bg-accent" />
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-foreground"
+        >
           {personal.name}
         </Link>
 
