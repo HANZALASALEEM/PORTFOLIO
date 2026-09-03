@@ -52,7 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 max-[500px]:pb-16">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

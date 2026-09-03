@@ -9,7 +9,7 @@ export function Footer() {
     <footer className="border-t border-border">
       <Container className="flex flex-col items-center justify-between gap-4 py-10 sm:flex-row">
         <p className="text-xs text-muted">
-          © {new Date().getFullYear()} {personal.name}. Built with Next.js.
+          © {new Date().getFullYear()} {personal.name}.
         </p>
         <div className="flex items-center gap-4">
           <Link
