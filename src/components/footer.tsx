@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border">
       <Container className="flex flex-col items-center justify-between gap-4 py-10 sm:flex-row">
-        <p className="font-mono text-xs text-muted">
+        <p className="text-xs text-muted">
           © {new Date().getFullYear()} {personal.name}. Built with Next.js.
         </p>
         <div className="flex items-center gap-4">

@@ -22,7 +22,7 @@ export function About() {
                 <div>
                   <p className="text-sm font-medium text-foreground">{personal.education.degree}</p>
                   <p className="text-sm text-muted">{personal.education.school}</p>
-                  <p className="font-mono text-xs text-muted">{personal.education.period}</p>
+                  <p className="text-xs text-muted">{personal.education.period}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

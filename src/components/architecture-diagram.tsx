@@ -71,7 +71,7 @@ export function ArchitectureDiagram({ layers }: ArchitectureDiagramProps) {
       {layers.map((layer, i) => (
         <div key={layer.title} className="contents md:flex md:items-stretch">
           <div className="flex flex-1 flex-col gap-3 rounded-2xl border border-border bg-surface/60 p-4 md:min-w-[12rem]">
-            <span className="font-mono text-[11px] font-medium tracking-wide text-muted uppercase">
+            <span className="text-[11px] font-medium tracking-wide text-muted uppercase">
               {String(i + 1).padStart(2, "0")} · {layer.title}
             </span>
             <div className="flex flex-1 flex-col justify-center gap-2">

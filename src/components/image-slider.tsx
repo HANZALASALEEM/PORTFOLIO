@@ -41,7 +41,7 @@ export function ImageSlider({ images }: ImageSliderProps) {
         <span className="h-2.5 w-2.5 rounded-full bg-accent/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-muted/40" />
         <span className="h-2.5 w-2.5 rounded-full bg-muted/40" />
-        <span className="ml-3 flex-1 truncate font-mono text-xs text-muted">
+        <span className="ml-3 flex-1 truncate text-xs text-muted">
           {current.caption}
         </span>
       </div>

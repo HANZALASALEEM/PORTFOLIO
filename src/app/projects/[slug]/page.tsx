@@ -84,7 +84,7 @@ export default async function ProjectPage({ params }: PageProps) {
       <Container className="flex flex-col gap-16 pt-6">
         <Reveal delay={0.05}>
           <div className="flex flex-col gap-4">
-            <h2 className="font-mono text-sm text-accent">Tech stack</h2>
+            <h2 className="text-sm text-accent">Tech stack</h2>
             <div className="flex flex-wrap gap-2">
               {project.stack.map((tech) => (
                 <Badge key={tech}>{tech}</Badge>
@@ -97,7 +97,7 @@ export default async function ProjectPage({ params }: PageProps) {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 text-accent">
               <Layers size={16} />
-              <h2 className="font-mono text-sm">Key features</h2>
+              <h2 className="text-sm">Key features</h2>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
               {project.features.map((feature) => (
@@ -114,7 +114,7 @@ export default async function ProjectPage({ params }: PageProps) {
 
         <Reveal delay={0.15}>
           <div className="flex flex-col gap-6">
-            <h2 className="font-mono text-sm text-accent">High-level architecture</h2>
+            <h2 className="text-sm text-accent">High-level architecture</h2>
             <div className="relative overflow-x-auto rounded-2xl border border-border p-6">
               <ThreeBackground
                 variant="field"

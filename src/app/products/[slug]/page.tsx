@@ -94,14 +94,14 @@ export default async function ProductPage({ params }: PageProps) {
             <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6">
               <div className="flex items-center gap-2 text-accent">
                 <Target size={16} />
-                <h2 className="font-mono text-sm">The problem</h2>
+                <h2 className="text-sm">The problem</h2>
               </div>
               <p className="text-muted">{product.problem}</p>
             </div>
             <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6">
               <div className="flex items-center gap-2 text-accent">
                 <UserRound size={16} />
-                <h2 className="font-mono text-sm">My role</h2>
+                <h2 className="text-sm">My role</h2>
               </div>
               <p className="text-muted">{product.role}</p>
             </div>
@@ -115,7 +115,7 @@ export default async function ProductPage({ params }: PageProps) {
               opacity={0.5}
               className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
             />
-            <h2 className="font-mono text-sm text-accent">Tech stack</h2>
+            <h2 className="text-sm text-accent">Tech stack</h2>
             <div className="mt-4 flex flex-wrap gap-2">
               {product.stack.map((tech) => (
                 <Badge key={tech}>{tech}</Badge>
@@ -128,7 +128,7 @@ export default async function ProductPage({ params }: PageProps) {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 text-accent">
               <Layers size={16} />
-              <h2 className="font-mono text-sm">Key features</h2>
+              <h2 className="text-sm">Key features</h2>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
               {product.features.map((feature) => (
@@ -145,7 +145,7 @@ export default async function ProductPage({ params }: PageProps) {
 
         <Reveal delay={0.2}>
           <div className="flex flex-col gap-6">
-            <h2 className="font-mono text-sm text-accent">High-level architecture</h2>
+            <h2 className="text-sm text-accent">High-level architecture</h2>
             <div className="relative overflow-x-auto rounded-2xl border border-border p-6">
               <ThreeBackground
                 variant="field"

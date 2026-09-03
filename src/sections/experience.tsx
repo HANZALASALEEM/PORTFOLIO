@@ -15,7 +15,7 @@ export function ExperienceSection() {
                 <div>
                   <p className="text-sm font-medium text-foreground">{job.role}</p>
                   <p className="text-sm text-accent">{job.company}</p>
-                  <p className="font-mono text-xs text-muted">{job.period}</p>
+                  <p className="text-xs text-muted">{job.period}</p>
                   <p className="text-xs text-muted">{job.location}</p>
                 </div>
                 <ul className="flex flex-col gap-2">
