@@ -11,218 +11,97 @@ type ThreeBackgroundProps = {
   opacity?: number;
 };
 
-type Driver = {
-  tick: (elapsed: number, width: number, height: number) => void;
-  setColor: (color: number) => void;
-  dispose: () => void;
+type VariantPreset = {
+  scale: number;
+  speed: number;
+  intensity: number;
+  lineIntensity: number;
 };
 
-function createNetworkDriver(scene: THREE.Scene, width: number, height: number, color: number, count: number): Driver {
-  const nodes = Array.from({ length: count }, () => ({
-    x: Math.random() * width,
-    y: Math.random() * height,
-    vx: (Math.random() - 0.5) * 0.25,
-    vy: (Math.random() - 0.5) * 0.25,
-  }));
-  const linkDistance = Math.max(90, Math.min(150, width / 6));
+const PRESETS: Record<ThreeBackgroundVariant, VariantPreset> = {
+  network: { scale: 1.6, speed: 0.1, intensity: 0.09, lineIntensity: 0.14 },
+  grid: { scale: 2.6, speed: 0.06, intensity: 0.05, lineIntensity: 0.08 },
+  waves: { scale: 2.0, speed: 0.14, intensity: 0.06, lineIntensity: 0.1 },
+  field: { scale: 3.8, speed: 0.04, intensity: 0.025, lineIntensity: 0.04 },
+};
 
-  const pointsGeometry = new THREE.BufferGeometry();
-  const pointsMaterial = new THREE.PointsMaterial({ color, size: 3, transparent: true, opacity: 0.6, sizeAttenuation: false });
-  const points = new THREE.Points(pointsGeometry, pointsMaterial);
-  scene.add(points);
+const VERTEX_SHADER = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
 
-  const lineMaterial = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.14 });
-  let lines = new THREE.LineSegments(new THREE.BufferGeometry(), lineMaterial);
-  scene.add(lines);
+const FRAGMENT_SHADER = /* glsl */ `
+  precision highp float;
+  varying vec2 vUv;
+  uniform float uTime;
+  uniform vec3 uColor;
+  uniform float uScale;
+  uniform float uSpeed;
+  uniform float uIntensity;
+  uniform float uLineIntensity;
+  uniform vec2 uResolution;
 
-  function sync(w: number, h: number) {
-    const positions = new Float32Array(nodes.length * 3);
-    nodes.forEach((node, i) => {
-      positions[i * 3] = node.x;
-      positions[i * 3 + 1] = h - node.y;
-      positions[i * 3 + 2] = 0;
-    });
-    pointsGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  vec2 mod289(vec2 x){return x-floor(x*(1.0/289.0))*289.0;}
+  vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
+  vec3 permute(vec3 x){return mod289(((x*34.0)+1.0)*x);}
 
-    const linePositions: number[] = [];
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        if (Math.sqrt(dx * dx + dy * dy) < linkDistance) {
-          linePositions.push(nodes[i].x, h - nodes[i].y, 0, nodes[j].x, h - nodes[j].y, 0);
-        }
-      }
+  float snoise(vec2 v){
+    const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+             -0.577350269189626, 0.024390243902439);
+    vec2 i  = floor(v + dot(v, C.yy));
+    vec2 x0 = v - i + dot(i, C.xx);
+    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec4 x12 = x0.xyxy + C.xxzz;
+    x12.xy -= i1;
+    i = mod289(i);
+    vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
+          + i.x + vec3(0.0, i1.x, 1.0));
+    vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+    m = m * m;
+    m = m * m;
+    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+    vec3 h = abs(x) - 0.5;
+    vec3 ox = floor(x + 0.5);
+    vec3 a0 = x - ox;
+    m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+    vec3 g;
+    g.x = a0.x * x0.x + h.x * x0.y;
+    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+    return 130.0 * dot(m, g);
+  }
+
+  float fbm(vec2 p) {
+    float value = 0.0;
+    float amplitude = 0.55;
+    for (int i = 0; i < 4; i++) {
+      value += amplitude * snoise(p);
+      p *= 2.05;
+      amplitude *= 0.5;
     }
-    scene.remove(lines);
-    lines = new THREE.LineSegments(
-      new THREE.BufferGeometry().setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3)),
-      lineMaterial,
-    );
-    scene.add(lines);
+    return value;
   }
 
-  sync(width, height);
+  void main() {
+    float aspect = uResolution.x / max(uResolution.y, 1.0);
+    vec2 p = vec2(vUv.x * aspect, vUv.y) * uScale;
+    float t = uTime * uSpeed;
 
-  return {
-    tick(_elapsed, w, h) {
-      for (const node of nodes) {
-        node.x += node.vx;
-        node.y += node.vy;
-        if (node.x < 0 || node.x > w) node.vx *= -1;
-        if (node.y < 0 || node.y > h) node.vy *= -1;
-      }
-      sync(w, h);
-    },
-    setColor(next) {
-      pointsMaterial.color.setHex(next);
-      lineMaterial.color.setHex(next);
-    },
-    dispose() {
-      pointsGeometry.dispose();
-      pointsMaterial.dispose();
-      lineMaterial.dispose();
-      lines.geometry.dispose();
-      scene.remove(points);
-      scene.remove(lines);
-    },
-  };
-}
+    float n1 = fbm(p + vec2(t, -t * 0.6));
+    float n2 = fbm(p * 1.6 - vec2(-t * 0.35, t * 0.25) + 7.3);
+    float field = fbm(p + n1 * 0.6 + n2 * 0.4 + t * 0.1);
 
-function createFieldDriver(scene: THREE.Scene, width: number, height: number, color: number, count: number): Driver {
-  const nodes = Array.from({ length: count }, () => ({
-    x: Math.random() * width,
-    y: Math.random() * height,
-    vx: (Math.random() - 0.5) * 0.12,
-    vy: (Math.random() - 0.5) * 0.12,
-  }));
+    float glow = smoothstep(-0.5, 0.9, field) * uIntensity;
 
-  const geometry = new THREE.BufferGeometry();
-  const material = new THREE.PointsMaterial({ color, size: 2.5, transparent: true, opacity: 0.5, sizeAttenuation: false });
-  const points = new THREE.Points(geometry, material);
-  scene.add(points);
+    float contour = abs(fract(field * 3.0) - 0.5);
+    float lines = smoothstep(0.44, 0.5, 0.5 - contour) * uLineIntensity;
 
-  function sync(h: number) {
-    const positions = new Float32Array(nodes.length * 3);
-    nodes.forEach((node, i) => {
-      positions[i * 3] = node.x;
-      positions[i * 3 + 1] = h - node.y;
-      positions[i * 3 + 2] = 0;
-    });
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    float alpha = clamp(glow + lines, 0.0, 1.0);
+    gl_FragColor = vec4(uColor, alpha);
   }
-  sync(height);
-
-  return {
-    tick(_elapsed, w, h) {
-      for (const node of nodes) {
-        node.x += node.vx;
-        node.y += node.vy;
-        if (node.x < 0 || node.x > w) node.vx *= -1;
-        if (node.y < 0 || node.y > h) node.vy *= -1;
-      }
-      sync(h);
-    },
-    setColor(next) {
-      material.color.setHex(next);
-    },
-    dispose() {
-      geometry.dispose();
-      material.dispose();
-      scene.remove(points);
-    },
-  };
-}
-
-function createGridDriver(scene: THREE.Scene, width: number, height: number, color: number): Driver {
-  const spacing = 34;
-  const cols = Math.ceil(width / spacing) + 1;
-  const rows = Math.ceil(height / spacing) + 1;
-  const cells: { x: number; y: number; phase: number }[] = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      cells.push({ x: c * spacing, y: r * spacing, phase: Math.random() * Math.PI * 2 });
-    }
-  }
-
-  const geometry = new THREE.BufferGeometry();
-  const material = new THREE.PointsMaterial({ color, size: 2.5, transparent: true, opacity: 0.5, sizeAttenuation: false });
-  const points = new THREE.Points(geometry, material);
-  scene.add(points);
-
-  function sync(elapsed: number, h: number) {
-    const positions = new Float32Array(cells.length * 3);
-    cells.forEach((cell, i) => {
-      const bob = Math.sin(elapsed * 0.6 + cell.phase) * 4;
-      positions[i * 3] = cell.x;
-      positions[i * 3 + 1] = h - cell.y + bob;
-      positions[i * 3 + 2] = 0;
-    });
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  }
-  sync(0, height);
-
-  return {
-    tick(elapsed, _w, h) {
-      sync(elapsed, h);
-    },
-    setColor(next) {
-      material.color.setHex(next);
-    },
-    dispose() {
-      geometry.dispose();
-      material.dispose();
-      scene.remove(points);
-    },
-  };
-}
-
-function createWavesDriver(scene: THREE.Scene, width: number, height: number, color: number): Driver {
-  const waveCount = 4;
-  const segments = 48;
-  const lineObjects: THREE.Line[] = [];
-  const material = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.4 });
-
-  for (let i = 0; i < waveCount; i++) {
-    const geometry = new THREE.BufferGeometry();
-    const line = new THREE.Line(geometry, material);
-    scene.add(line);
-    lineObjects.push(line);
-  }
-
-  function sync(elapsed: number, w: number, h: number) {
-    lineObjects.forEach((line, i) => {
-      const baseY = h * ((i + 1) / (waveCount + 1));
-      const amplitude = 18 + i * 4;
-      const positions = new Float32Array((segments + 1) * 3);
-      for (let s = 0; s <= segments; s++) {
-        const x = (w / segments) * s;
-        const y = baseY + Math.sin(x * 0.02 + elapsed * (0.4 + i * 0.08) + i) * amplitude;
-        positions[s * 3] = x;
-        positions[s * 3 + 1] = y;
-        positions[s * 3 + 2] = 0;
-      }
-      line.geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    });
-  }
-  sync(0, width, height);
-
-  return {
-    tick(elapsed, w, h) {
-      sync(elapsed, w, h);
-    },
-    setColor(next) {
-      material.color.setHex(next);
-    },
-    dispose() {
-      material.dispose();
-      lineObjects.forEach((line) => {
-        line.geometry.dispose();
-        scene.remove(line);
-      });
-    },
-  };
-}
+`;
 
 export function ThreeBackground({ className, variant = "network", opacity = 1 }: ThreeBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -238,8 +117,10 @@ export function ThreeBackground({ className, variant = "network", opacity = 1 }:
     let width = Math.max(container.clientWidth, 1);
     let height = Math.max(container.clientHeight, 1);
 
+    const preset = PRESETS[variant];
+
     const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(0, width, 0, height, -10, 10);
+    const camera = new THREE.OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 0.1, 1000);
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -247,21 +128,28 @@ export function ThreeBackground({ className, variant = "network", opacity = 1 }:
     renderer.setSize(width, height);
     container.appendChild(renderer.domElement);
 
-    const color = getAccentColor();
-    let driver: Driver;
-    switch (variant) {
-      case "grid":
-        driver = createGridDriver(scene, width, height, color);
-        break;
-      case "waves":
-        driver = createWavesDriver(scene, width, height, color);
-        break;
-      case "field":
-        driver = createFieldDriver(scene, width, height, color, 34);
-        break;
-      default:
-        driver = createNetworkDriver(scene, width, height, color, 70);
-    }
+    const color = new THREE.Color(getAccentColor());
+    const uniforms = {
+      uTime: { value: 0 },
+      uColor: { value: color },
+      uScale: { value: preset.scale },
+      uSpeed: { value: preset.speed },
+      uIntensity: { value: preset.intensity },
+      uLineIntensity: { value: preset.lineIntensity },
+      uResolution: { value: new THREE.Vector2(width, height) },
+    };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: VERTEX_SHADER,
+      fragmentShader: FRAGMENT_SHADER,
+      uniforms,
+      transparent: true,
+      depthWrite: false,
+    });
+
+    let geometry = new THREE.PlaneGeometry(width, height);
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
     let frameId: number | null = null;
     let animating = false;
@@ -270,7 +158,7 @@ export function ThreeBackground({ className, variant = "network", opacity = 1 }:
     const clock = new THREE.Clock();
 
     function renderFrame() {
-      driver.tick(clock.getElapsedTime(), width, height);
+      uniforms.uTime.value = clock.getElapsedTime();
       renderer.render(scene, camera);
     }
 
@@ -316,16 +204,22 @@ export function ThreeBackground({ className, variant = "network", opacity = 1 }:
       if (!entry) return;
       width = Math.max(entry.contentRect.width, 1);
       height = Math.max(entry.contentRect.height, 1);
-      camera.right = width;
-      camera.bottom = height;
+      camera.left = width / -2;
+      camera.right = width / 2;
+      camera.top = height / 2;
+      camera.bottom = height / -2;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
+      geometry.dispose();
+      geometry = new THREE.PlaneGeometry(width, height);
+      mesh.geometry = geometry;
+      uniforms.uResolution.value.set(width, height);
       renderFrame();
     });
     resizeObserver.observe(container);
 
     const themeObserver = new MutationObserver(() => {
-      driver.setColor(getAccentColor());
+      uniforms.uColor.value.setHex(getAccentColor());
       renderFrame();
     });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
@@ -336,7 +230,8 @@ export function ThreeBackground({ className, variant = "network", opacity = 1 }:
       resizeObserver.disconnect();
       themeObserver.disconnect();
       document.removeEventListener("visibilitychange", handleVisibility);
-      driver.dispose();
+      geometry.dispose();
+      material.dispose();
       renderer.dispose();
       container.removeChild(renderer.domElement);
     };

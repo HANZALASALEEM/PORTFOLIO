@@ -12,7 +12,7 @@ export function SectionHeading({ index, title, description }: SectionHeadingProp
         {title}
       </h2>
       {description ? (
-        <p className="max-w-2xl font-[var(--font-description)] text-muted">{description}</p>
+        <p className="max-w-2xl font-(--font-description) text-muted">{description}</p>
       ) : null}
     </div>
   );

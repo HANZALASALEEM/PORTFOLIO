@@ -11,7 +11,7 @@ export function About() {
         <SectionHeading index="01 / 06" title="About" />
         <div className="grid gap-10 md:grid-cols-[2fr_1fr]">
           <Reveal>
-            <p className="font-[var(--font-description)] text-lg leading-relaxed text-muted">
+            <p className="font-(--font-description) text-lg leading-relaxed text-muted">
               {personal.bio}
             </p>
           </Reveal>

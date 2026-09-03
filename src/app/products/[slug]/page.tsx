@@ -71,7 +71,7 @@ export default async function ProductPage({ params }: PageProps) {
                 <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
                   {product.name}
                 </h1>
-                <p className="max-w-2xl font-[var(--font-description)] text-lg text-muted">
+                <p className="max-w-2xl font-(--font-description) text-lg text-muted">
                   {product.tagline}
                 </p>
                 <ButtonLink href={product.url} target="_blank" className="w-fit">

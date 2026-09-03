@@ -26,7 +26,7 @@ export function Hero() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <p className="max-w-xl font-[var(--font-description)] text-lg text-muted">
+          <p className="max-w-xl font-(--font-description) text-lg text-muted">
             {personal.tagline}
           </p>
         </Reveal>

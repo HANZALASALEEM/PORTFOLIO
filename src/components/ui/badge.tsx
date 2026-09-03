@@ -11,7 +11,7 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
       className={cn(
         "inline-flex items-center rounded-full border px-3 py-1 font-mono text-xs",
         variant === "accent"
-          ? "border-accent bg-accent text-accent-foreground"
+          ? "border-accent/50 bg-surface text-accent"
           : "border-border bg-surface text-muted",
         className,
       )}
