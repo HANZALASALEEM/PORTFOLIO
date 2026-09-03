@@ -1,6 +1,5 @@
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/reveal";
 import { ThreeBackground } from "@/components/three-background";
 import { skillGroups } from "@/data/skills";
@@ -18,16 +17,14 @@ export function Skills() {
           title="Skills"
           description="Languages, frameworks, and infrastructure I use to ship products end to end."
         />
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group, i) => (
             <Reveal key={group.title} delay={i * 0.05}>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 border-l border-border pl-5">
                 <h3 className="text-sm font-medium text-foreground">{group.title}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill) => (
-                    <Badge key={skill}>{skill}</Badge>
-                  ))}
-                </div>
+                <p className="font-(--font-description) text-sm leading-relaxed text-muted">
+                  {group.skills.join(" · ")}
+                </p>
               </div>
             </Reveal>
           ))}
