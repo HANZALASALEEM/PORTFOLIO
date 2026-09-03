@@ -24,12 +24,12 @@ const lexendDeca = Lexend_Deca({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hanzalasaleem.dev"),
   title: {
-    default: `${personal.name} — ${personal.role}`,
-    template: `%s — ${personal.name}`,
+    default: `${personal.name} | ${personal.role}`,
+    template: `%s | ${personal.name}`,
   },
   description: personal.tagline,
   openGraph: {
-    title: `${personal.name} — ${personal.role}`,
+    title: `${personal.name} | ${personal.role}`,
     description: personal.tagline,
     url: "https://hanzalasaleem.dev",
     siteName: personal.name,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${personal.name} — ${personal.role}`,
+    title: `${personal.name} | ${personal.role}`,
     description: personal.tagline,
   },
 };

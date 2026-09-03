@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { ButtonLink } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/reveal";
+import { ThreeBackground } from "@/components/three-background";
 import { personal } from "@/data/personal";
 
 export function Hero() {
@@ -10,8 +11,9 @@ export function Hero() {
     <section className="relative overflow-hidden py-28 sm:py-36">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(circle_at_top,_var(--accent-soft),_transparent_65%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[600px] bg-[radial-gradient(circle_at_top,_var(--accent-soft),_transparent_70%)]"
       />
+      <ThreeBackground className="pointer-events-none absolute inset-0 -z-10 h-[600px] w-full opacity-70 [mask-image:linear-gradient(to_bottom,black,transparent)]" />
       <Container className="flex flex-col items-start gap-8">
         <Reveal>
           <Badge>Available for new work</Badge>
@@ -19,7 +21,7 @@ export function Hero() {
 
         <Reveal delay={0.05}>
           <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
-            {personal.name} — {personal.role} building products end to end.
+            {personal.name}, {personal.role} building products end to end.
           </h1>
         </Reveal>
 

@@ -2,28 +2,28 @@
 
 :root {
   --background: #ffffff;
-  --surface: #f7f6f4;
-  --surface-hover: #efeeea;
+  --surface: #f7f7f6;
+  --surface-hover: #efefec;
   --foreground: #0a0a0a;
-  --muted: #5d5d64;
-  --border: #e6e4df;
-  --accent: #ff4d0a;
+  --muted: #58585c;
+  --border: #e7e6e2;
+  --accent: #ff4405;
   --accent-foreground: #ffffff;
-  --accent-soft: #fff1e9;
-  --ring: #ff4d0a;
+  --accent-soft: #ffe4cf;
+  --ring: #ff4405;
 }
 
 .dark {
-  --background: #0a0908;
-  --surface: #131211;
-  --surface-hover: #1c1a18;
-  --foreground: #f5f3ef;
-  --muted: #a3a099;
-  --border: #26241f;
-  --accent: #ff6a33;
-  --accent-foreground: #0a0908;
-  --accent-soft: #24140b;
-  --ring: #ff6a33;
+  --background: #0a0d12;
+  --surface: #12161d;
+  --surface-hover: #1a2029;
+  --foreground: #f5f6f8;
+  --muted: #a7aebb;
+  --border: #232a35;
+  --accent: #ff6a2c;
+  --accent-foreground: #0a0d12;
+  --accent-soft: #2b1508;
+  --ring: #ff6a2c;
 }
 
 @theme inline {

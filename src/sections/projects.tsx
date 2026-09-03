@@ -52,7 +52,7 @@ export function Projects() {
                     <ArrowUpRight size={14} />
                   </Link>
                 ) : (
-                  <span className="text-xs text-muted">Client project — no public repo</span>
+                  <span className="text-xs text-muted">Client project, no public repo</span>
                 )}
               </Card>
             </Reveal>

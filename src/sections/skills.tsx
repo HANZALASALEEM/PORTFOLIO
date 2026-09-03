@@ -2,11 +2,16 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/reveal";
+import { ThreeBackground } from "@/components/three-background";
 import { skillGroups } from "@/data/skills";
 
 export function Skills() {
   return (
-    <section id="skills" className="scroll-mt-24 py-24">
+    <section id="skills" className="relative scroll-mt-24 overflow-hidden py-24">
+      <ThreeBackground
+        variant="grid"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+      />
       <Container>
         <SectionHeading
           index="02 / 06"

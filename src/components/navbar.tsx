@@ -23,7 +23,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="font-mono text-sm font-semibold tracking-tight text-foreground">
+        <Link href="/" className="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-foreground">
+          <span aria-hidden className="h-2 w-2 rounded-full bg-accent" />
           {personal.name}
         </Link>
 
@@ -32,7 +33,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-muted transition-colors hover:text-foreground"
+              className="relative text-sm text-muted transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-200 hover:after:w-full"
             >
               {link.label}
             </Link>

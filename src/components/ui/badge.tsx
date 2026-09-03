@@ -1,11 +1,18 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 
-export function Badge({ className, ...props }: ComponentPropsWithoutRef<"span">) {
+type BadgeProps = ComponentPropsWithoutRef<"span"> & {
+  variant?: "default" | "accent";
+};
+
+export function Badge({ className, variant = "default", ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-border bg-surface px-3 py-1 font-mono text-xs text-muted",
+        "inline-flex items-center rounded-full border px-3 py-1 font-mono text-xs",
+        variant === "accent"
+          ? "border-accent bg-accent text-accent-foreground"
+          : "border-border bg-surface text-muted",
         className,
       )}
       {...props}

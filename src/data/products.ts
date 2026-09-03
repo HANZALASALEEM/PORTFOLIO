@@ -26,7 +26,7 @@ export const products: Product[] = [
     problem:
       "Teams that need website screenshots or PDFs at scale end up running and babysitting their own Puppeteer/Playwright fleets. Screenshotapi replaces that with a single API call.",
     role:
-      "Built end to end — design, coding, deployment, content, SEO, and marketing all done personally.",
+      "Built end to end: design, coding, deployment, content, SEO, and marketing all done personally.",
     stack: [
       "Next.js",
       "Node.js",
@@ -59,13 +59,13 @@ export const products: Product[] = [
   {
     slug: "verid",
     name: "Verid",
-    tagline: "Developer-first web change detection API — monitor pages and get notified only when it matters",
+    tagline: "Developer-first web change detection API that monitors pages and notifies you only when it matters",
     url: "https://verid.dev",
     ownership: "end-to-end",
     problem:
       "Teams monitoring pages for changes either build brittle DIY scrapers or use screenshot-only tools that can't tell them what actually changed. Verid handles fetching, diffing, and alerting as one loop.",
     role:
-      "Built end to end — design, coding, deployment, content, SEO, and marketing all done personally.",
+      "Built end to end: design, coding, deployment, content, SEO, and marketing all done personally.",
     stack: [
       "REST API (OpenAPI 3.1)",
       "Node.js SDK",
@@ -76,7 +76,7 @@ export const products: Product[] = [
     ],
     features: [
       "Six extraction methods: CSS, XPath, JSONPath, regex, full-page hash, and AI/LLM",
-      "Predicate-based alerting — only fires when a rule actually matches",
+      "Predicate-based alerting that only fires when a rule actually matches",
       "Multi-destination delivery: HMAC-signed webhooks, Slack, Discord, email",
       "Automatic escalation ladder: static fetch → headless browser → residential proxy",
     ],
@@ -140,7 +140,7 @@ export const products: Product[] = [
   {
     slug: "webscrapeai",
     name: "Webscrape AI",
-    tagline: "No-code web scraping — enter a URL and the fields you want, get structured data back",
+    tagline: "No-code web scraping: enter a URL and the fields you want, get structured data back",
     url: "https://webscrapeai.com",
     ownership: "contributor",
     problem:
@@ -148,7 +148,7 @@ export const products: Product[] = [
     role: "Designed and built the frontend, including scroll-based UX with the Intersection Observer API.",
     stack: ["Next.js", "Intersection Observer API", "Proxy rotation", "JS rendering engine"],
     features: [
-      "No-code interface — just the URL and the fields to extract",
+      "No-code interface: just the URL and the fields to extract",
       "AI-assisted field detection",
       "Bulk scraping and pagination support",
       "Proxy support and JavaScript-wait handling on higher tiers",

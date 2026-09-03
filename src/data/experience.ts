@@ -10,7 +10,7 @@ export const experience: Experience[] = [
   {
     company: "JFreaks Software Solutions",
     role: "Software Engineer",
-    period: "07/2024 – Present",
+    period: "07/2024 to Present",
     location: "Bahria Town, Lahore",
     bullets: [
       "Design and build responsive UI components with React, Tailwind CSS, and TypeScript",
@@ -19,13 +19,13 @@ export const experience: Experience[] = [
       "Manage client-side data fetching and caching with SWR, React Query, and MobX",
       "Integrate Stripe and Creem for subscription-based billing",
       "Work with PostgreSQL to handle large-scale datasets efficiently",
-      "Collaborate in Agile sprints — planning, stand-ups, and code reviews",
+      "Collaborate in Agile sprints: planning, stand-ups, and code reviews",
     ],
   },
   {
     company: "Vespert Tech",
     role: "React Native Developer",
-    period: "06/2023 – 09/2023",
+    period: "06/2023 to 09/2023",
     location: "Master City, Gujranwala",
     bullets: [
       "Built a Travel App and an Income & Loan tracking app in React Native",

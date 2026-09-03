@@ -25,13 +25,13 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/HANZALASALEEM/E-COMMERCE-APP-REACT-NATIVE",
   },
   {
-    name: "Skill Station — University Website",
+    name: "Skill Station (University Website)",
     description: "A university website built with vanilla HTML, CSS, JavaScript, and PHP.",
     stack: ["HTML5", "CSS3", "JavaScript", "PHP"],
     githubUrl: "https://github.com/HANZALASALEEM/SKILL-STATION",
   },
   {
-    name: "Skill Station — React Frontend",
+    name: "Skill Station (React Frontend)",
     description: "A React rebuild of the Skill Station university website frontend.",
     stack: ["React"],
     githubUrl: "https://github.com/HANZALASALEEM/SKILL-STATION-REACT-JS-FRONTEND",

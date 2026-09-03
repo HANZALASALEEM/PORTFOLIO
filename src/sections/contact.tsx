@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
+import { ThreeBackground } from "@/components/three-background";
 import { personal } from "@/data/personal";
 
 const links = [
@@ -15,7 +16,11 @@ const links = [
 
 export function Contact() {
   return (
-    <section id="contact" className="scroll-mt-24 py-24">
+    <section id="contact" className="relative scroll-mt-24 overflow-hidden py-24">
+      <ThreeBackground
+        variant="field"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+      />
       <Container>
         <SectionHeading
           index="06 / 06"

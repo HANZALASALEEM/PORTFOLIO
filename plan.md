@@ -19,6 +19,7 @@ Rebuild the personal portfolio from scratch. Design language inspired by [firecr
 - **Content**: static typed data files under `app/src/data/` (products.ts, projects.ts, experience.ts, skills.ts) — no CMS, no database. Keeps the site static/fast and easy to update.
 - **Deployment target**: Vercel (default for Next.js; confirm before first deploy)
 - **Diagrams**: hand-built inline SVG architecture diagrams per product (no external diagramming library at runtime)
+- **Background effects**: `three.js` (vanilla, no React Three Fiber) for a Firecrawl-style animated particle-network canvas behind hero sections
 
 Coding standards:
 - No comments in code — self-explanatory naming instead.
@@ -101,10 +102,24 @@ Puppeteer / Playwright (browser automation), Webhooks & HMAC signing, REST API &
 **Resolved during build:**
 - A newer, more accurate resume PDF was found (`assets/resume/resume-latest.pdf`) and used as the source of truth for title, bullets, and stack — it's now wired up as the "Download Resume" CTA at `public/resume.pdf`.
 
+**Round 3 polish (design feedback):**
+- Reworked the homepage into an alternating pattern: plain white/dark section, then a Three.js canvas-background section, repeating (Hero → About(plain) → Skills(canvas) → Experience(plain) → Products(canvas) → Projects(plain) → Contact(canvas)). Removed the earlier flat accent-tinted "Products" band entirely per feedback that it looked bad.
+- `ThreeBackground` now supports four distinct variants so each canvas section looks different: `network` (Hero — particle network with connecting lines), `grid` (Skills — a gently bobbing dot grid), `waves` (Products — flowing sine-wave lines), `field` (Contact and the product-page Tech Stack/Architecture banners — sparse, light, subtle dots).
+- Card/badge surfaces reverted from a warm accent-tinted cream back to neutral, so the accent color reads as a deliberate highlight (buttons, badges, icons, canvases) rather than a wash over everything.
+- Fixed a real rendering bug: an opaque `bg-background` class set directly on the same `<section>` that hosts a negative-z-index Three.js canvas caused the canvas to render invisibly in this environment (contrary to standard CSS stacking order, likely a compositor quirk with WebGL canvases + negative z-index siblings). Fix: don't set a background color on the section itself — let it inherit the `<body>` background, matching the pattern the Hero section already used successfully.
+
+**Round 2 polish:**
+- Product pages now show a stylized abstract "browser mockup" visual (`ProductMockup` component: browser chrome frame + gradient art seeded per product) since real product screenshots aren't available yet. These are clearly placeholder art, not fake screenshots — swap for real screenshots once captured.
+- Added a Firecrawl-style animated particle-network background (`ThreeBackground`, built with `three.js` directly) behind the Hero and each product page's hero. Respects `prefers-reduced-motion` (renders one static frame, no animation loop) and pauses via the Page Visibility API when the tab isn't active.
+- Increased accent-color presence site-wide: warm accent-tinted card/section surfaces, an accent-tinted `Products` section band, accent-filled "Built end-to-end" badges, accent nav-link underlines and brand dot, top accent bar on product cards.
+- Rebuilt the dark theme palette: cooler navy/charcoal surfaces instead of the original warm near-black, brighter muted text, and clearer border separation between layers, for better readability and contrast.
+- Removed all em dashes and en dashes from site copy (data files and components) in favor of colons, commas, "to", or restructured sentences.
+- Fixed a layout bug on the product page: the ownership badge was stretching full-width because its parent flex-column container was missing `items-start` (flex default `align-items: stretch` was pulling `inline-flex` badge to the container width).
+
 **Still open:**
 - Per-product "my role" wording (end-to-end owner vs contributor) should be double-checked against actual involvement before publishing case studies, especially for WhoisFreaks / CurrencyFreaks / Webscrape AI.
 - Architecture diagrams are inferred at a high level from public site behavior and resume bullets — flag any inaccuracies so they can be corrected per product.
-- Need real screenshots/mockups per product for the case-study hero and gallery (not just text) — capture from live sites or request originals.
+- Need real product screenshots to eventually replace the stylized mockup placeholders.
 - Need a current personal photo for Hero/About (none is used yet — hero is currently text-only).
 - Still using the default Next.js favicon — needs a real favicon/logo mark.
 - Custom domain not yet purchased — `metadataBase`/OG URLs in the code currently point to a placeholder `hanzalasaleem.dev`, update once the real domain is bought.
