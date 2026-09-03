@@ -54,7 +54,7 @@ export function Products() {
                         ? "Built end-to-end"
                         : "Contributor"}
                     </Badge>
-                    {product.stack.slice(0, 2).map((tech) => (
+                    {product.stack.map((tech) => (
                       <Badge key={tech}>{tech}</Badge>
                     ))}
                   </div>
