@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
 import { ThreeBackground } from "@/components/three-background";
+import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { projects, getProject } from "@/data/projects";
 
 type PageProps = {
@@ -108,6 +109,20 @@ export default async function ProjectPage({ params }: PageProps) {
                 </li>
               ))}
             </ul>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <div className="flex flex-col gap-6">
+            <h2 className="font-mono text-sm text-accent">High-level architecture</h2>
+            <div className="relative overflow-x-auto rounded-2xl border border-border p-6">
+              <ThreeBackground
+                variant="field"
+                opacity={0.5}
+                className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+              />
+              <ArchitectureDiagram layers={project.architecture} />
+            </div>
           </div>
         </Reveal>
       </Container>

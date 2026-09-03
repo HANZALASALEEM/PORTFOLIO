@@ -8,7 +8,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
 import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { ThreeBackground } from "@/components/three-background";
-import { ProductMockup } from "@/components/product-mockup";
+import { ImageSlider } from "@/components/image-slider";
 import { products, getProduct } from "@/data/products";
 
 type PageProps = {
@@ -50,9 +50,9 @@ export default async function ProductPage({ params }: PageProps) {
       <div className="relative overflow-hidden pt-14 pb-10">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[520px] bg-[radial-gradient(circle_at_top,_var(--accent-soft),_transparent_70%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-130 bg-[radial-gradient(circle_at_top,var(--accent-soft),transparent_70%)]"
         />
-        <ThreeBackground className="pointer-events-none absolute inset-0 -z-10 h-[520px] w-full opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]" />
+        <ThreeBackground className="pointer-events-none absolute inset-0 -z-10 h-130 w-full opacity-60 mask-[linear-gradient(to_bottom,black,transparent)]" />
 
         <Container className="flex flex-col gap-10">
           <Reveal>
@@ -83,7 +83,7 @@ export default async function ProductPage({ params }: PageProps) {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <ProductMockup name={product.name} url={product.url} seed={product.slug} />
+            <ImageSlider images={product.images} />
           </Reveal>
         </Container>
       </div>
@@ -152,7 +152,7 @@ export default async function ProductPage({ params }: PageProps) {
                 opacity={0.5}
                 className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
               />
-              <ArchitectureDiagram steps={product.architecture} />
+              <ArchitectureDiagram layers={product.architecture} />
             </div>
           </div>
         </Reveal>

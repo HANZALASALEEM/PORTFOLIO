@@ -1,3 +1,5 @@
+import type { ArchitectureLayer } from "@/components/architecture-diagram";
+
 export type Project = {
   slug: string;
   name: string;
@@ -5,6 +7,7 @@ export type Project = {
   description: string;
   stack: string[];
   features: string[];
+  architecture: ArchitectureLayer[];
   githubUrl?: string;
 };
 
@@ -22,6 +25,24 @@ export const projects: Project[] = [
       "Human-readable timestamps via Moment.js",
       "In-app browser (Expo WebBrowser) for full articles",
     ],
+    architecture: [
+      { title: "Client", nodes: [{ label: "Mobile App", detail: "React Native + Expo screens", kind: "client" }] },
+      {
+        title: "Data Fetching",
+        nodes: [
+          { label: "Axios Client", detail: "Fetches and parses articles", kind: "service" },
+          { label: "News API", detail: "Third-party REST news source", kind: "external" },
+        ],
+      },
+      { title: "Navigation", nodes: [{ label: "Tab Navigator", detail: "Category-based navigation", kind: "service" }] },
+      {
+        title: "Display",
+        nodes: [
+          { label: "Article List", detail: "Timestamps formatted with Moment.js", kind: "output" },
+          { label: "In-App Browser", detail: "Full article view (Expo WebBrowser)", kind: "output" },
+        ],
+      },
+    ],
     githubUrl: "https://github.com/HANZALASALEEM/NEWS-APP-REACT-NATIVE",
   },
   {
@@ -36,6 +57,19 @@ export const projects: Project[] = [
       "Comment system on posts",
       "Firebase integration on the client",
       "Node.js API with MVC-style controllers, models, and routes",
+    ],
+    architecture: [
+      { title: "Client", nodes: [{ label: "Browser", detail: "React + Vite single-page app", kind: "client" }] },
+      {
+        title: "Frontend",
+        nodes: [
+          { label: "React App", detail: "Tailwind CSS UI", kind: "service" },
+          { label: "Firebase Client", detail: "Auth / storage integration", kind: "external" },
+        ],
+      },
+      { title: "API", nodes: [{ label: "Node.js API", detail: "Express-style controllers and routes", kind: "service" }] },
+      { title: "Data", nodes: [{ label: "MongoDB", detail: "Post and comment collections", kind: "datastore" }] },
+      { title: "Response", nodes: [{ label: "Rendered Post / Comments", detail: "Returned to the client", kind: "output" }] },
     ],
     githubUrl: "https://github.com/HANZALASALEEM/BLOG-WEBSITE",
   },
@@ -60,6 +94,13 @@ export const projects: Project[] = [
       "Drawer and stack navigation across screens",
       "Type-checked with TypeScript, tested with Jest",
     ],
+    architecture: [
+      { title: "Client", nodes: [{ label: "Mobile App", detail: "React Native + TypeScript", kind: "client" }] },
+      { title: "Navigation", nodes: [{ label: "React Navigation", detail: "Drawer + stack navigation", kind: "service" }] },
+      { title: "State", nodes: [{ label: "Redux Toolkit Store", detail: "Cart + app state management", kind: "service" }] },
+      { title: "Backend", nodes: [{ label: "Firebase Firestore", detail: "Product catalog + orders", kind: "datastore" }] },
+      { title: "Output", nodes: [{ label: "Product & Checkout UI", detail: "Rendered from store state", kind: "output" }] },
+    ],
     githubUrl: "https://github.com/HANZALASALEEM/E-COMMERCE-APP-REACT-NATIVE",
   },
   {
@@ -75,6 +116,18 @@ export const projects: Project[] = [
       "Blog page with a PHP-backed comment system",
       "About and contact pages",
     ],
+    architecture: [
+      { title: "Client", nodes: [{ label: "Browser", detail: "Static HTML/CSS pages", kind: "client" }] },
+      {
+        title: "Server",
+        nodes: [
+          { label: "login.php / register.php", detail: "Authentication handling", kind: "service" },
+          { label: "comment.php", detail: "Comment submission handling", kind: "service" },
+        ],
+      },
+      { title: "Data", nodes: [{ label: "Server-side data store", detail: "Login and comment records", kind: "datastore" }] },
+      { title: "Response", nodes: [{ label: "Rendered Page", detail: "Course, blog, and contact pages", kind: "output" }] },
+    ],
     githubUrl: "https://github.com/HANZALASALEEM/SKILL-STATION",
   },
   {
@@ -88,6 +141,12 @@ export const projects: Project[] = [
       "React rebuild of the original static site's UI",
       "Component-based structure in place of server-rendered PHP pages",
       "Testing set up with Jest and React Testing Library",
+    ],
+    architecture: [
+      { title: "Client", nodes: [{ label: "Browser", detail: "Loads the React bundle", kind: "client" }] },
+      { title: "App", nodes: [{ label: "React SPA", detail: "Create React App component tree", kind: "service" }] },
+      { title: "Testing", nodes: [{ label: "Jest + Testing Library", detail: "Component test suite", kind: "service" }] },
+      { title: "Output", nodes: [{ label: "Rendered UI", detail: "Rebuilt Skill Station interface", kind: "output" }] },
     ],
     githubUrl: "https://github.com/HANZALASALEEM/SKILL-STATION-REACT-JS-FRONTEND",
   },
@@ -115,6 +174,30 @@ export const projects: Project[] = [
       "Calendar and scheduling in the mobile app",
       "Admin web dashboard with PDF export (jsPDF, html2canvas)",
       "Shared Firebase backend across mobile and web",
+    ],
+    architecture: [
+      {
+        title: "Clients",
+        nodes: [
+          { label: "Mobile App", detail: "React Native + Expo (students/staff)", kind: "client" },
+          { label: "Admin Dashboard", detail: "React + Chakra UI + Ant Design", kind: "client" },
+        ],
+      },
+      {
+        title: "Shared Backend",
+        nodes: [
+          { label: "Firebase Auth / Firestore", detail: "Shared across mobile and web", kind: "datastore" },
+          { label: "Firebase Cloud Messaging", detail: "Push notifications", kind: "service" },
+        ],
+      },
+      {
+        title: "Features",
+        nodes: [
+          { label: "Generative AI Chat", detail: "Google Generative AI + gifted-chat UI", kind: "external" },
+          { label: "Calendar", detail: "Scheduling in the mobile app", kind: "service" },
+        ],
+      },
+      { title: "Output", nodes: [{ label: "PDF Export", detail: "jsPDF + html2canvas reports", kind: "output" }] },
     ],
     githubUrl: "https://github.com/HANZALASALEEM/FINAL-PROJECT",
   },
