@@ -14,7 +14,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[600px] bg-[radial-gradient(circle_at_top,_var(--accent-soft),_transparent_60%)]"
       />
       <ThreeBackground
-        opacity={0.4}
+        opacity={0.7}
         className="pointer-events-none absolute inset-0 -z-10 h-[600px] w-full [mask-image:linear-gradient(in_srgb_to_bottom,black,black_15%,transparent_80%)]"
       />
       <Container className="flex flex-col items-start gap-8">
