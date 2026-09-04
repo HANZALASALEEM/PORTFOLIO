@@ -22,7 +22,7 @@ const lexendDeca = Lexend_Deca({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hanzalasaleem.dev"),
+  metadataBase: new URL("https://hanzalasaleem.vercel.app"),
   title: {
     default: `${personal.name} | ${personal.role}`,
     template: `%s | ${personal.name}`,
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${personal.name} | ${personal.role}`,
     description: personal.tagline,
-    url: "https://hanzalasaleem.dev",
+    url: "https://hanzalasaleem.vercel.app",
     siteName: personal.name,
     type: "website",
   },

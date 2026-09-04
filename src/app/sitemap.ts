@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { products } from "@/data/products";
 import { projects } from "@/data/projects";
 
-const baseUrl = "https://hanzalasaleem.dev";
+const baseUrl = "https://hanzalasaleem.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
