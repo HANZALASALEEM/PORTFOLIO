@@ -6,7 +6,7 @@ import { skillGroups } from "@/data/skills";
 
 export function Skills() {
   return (
-    <section id="skills" className="relative scroll-mt-24 overflow-hidden py-24">
+    <section id="skills" className="relative scroll-mt-4 min-[501px]:scroll-mt-24 overflow-hidden py-24">
       <ThreeBackground
         variant="grid"
         className="pointer-events-none absolute inset-0 -z-10 h-full w-full"

@@ -12,7 +12,7 @@ export function Products() {
   return (
     <section
       id="products"
-      className="relative scroll-mt-24 overflow-hidden py-24"
+      className="relative scroll-mt-4 min-[501px]:scroll-mt-24 overflow-hidden py-24"
     >
       <ThreeBackground
         variant="field"

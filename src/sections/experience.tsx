@@ -5,7 +5,7 @@ import { experience } from "@/data/experience";
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="scroll-mt-24 py-24">
+    <section id="experience" className="scroll-mt-4 min-[501px]:scroll-mt-24 py-24">
       <Container>
         <SectionHeading index="03 / 06" title="Work Experience" />
         <div className="flex flex-col gap-10">

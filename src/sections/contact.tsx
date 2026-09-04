@@ -16,7 +16,7 @@ const links = [
 
 export function Contact() {
   return (
-    <section id="contact" className="relative scroll-mt-24 overflow-hidden py-24">
+    <section id="contact" className="relative scroll-mt-4 min-[501px]:scroll-mt-24 overflow-hidden py-24">
       <ThreeBackground
         variant="field"
         className="pointer-events-none absolute inset-0 -z-10 h-full w-full"

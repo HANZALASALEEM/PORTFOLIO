@@ -9,7 +9,7 @@ import { projects } from "@/data/projects";
 
 export function Projects() {
   return (
-    <section id="projects" className="scroll-mt-24 py-24">
+    <section id="projects" className="scroll-mt-4 min-[501px]:scroll-mt-24 py-24">
       <Container>
         <SectionHeading
           index="05 / 06"
